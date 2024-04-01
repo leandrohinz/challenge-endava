@@ -1,0 +1,31 @@
+//jenkinsfile for cd
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+   
+        stage('Terraform Init') {
+            steps {
+                sh 'cd app/movie-analyst-ui && terraform init'
+            }
+        }
+    
+        stage('Terraform Plan') {
+            steps {
+                sh 'cd app/movie-analyst-ui && terraform plan -out=tfplan'
+            }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                sh 'cd app/movie-analyst-ui && terraform apply -auto-approve tfplan'
+            }
+        }
+    
+    }
+}
