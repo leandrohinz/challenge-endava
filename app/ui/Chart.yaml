@@ -1,0 +1,4 @@
+apiVersion: v2
+name: movie-analyst-ui-chart
+description: A Helm chart for deploying UI to Minikube.
+version: 0.1.0

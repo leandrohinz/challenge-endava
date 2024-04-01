@@ -1,0 +1,26 @@
+ui:
+  image: leandroid/movie-analyst-ui
+
+api:
+  image: leandroid/movie-analyst-api
+
+jenkins:
+  image: jenkins/jenkins
+
+monitoring:
+  prometheus:
+    enabled: true
+  grafana:
+    enabled: true
+
+DB_HOST:
+  name: localhost
+
+DB_USER:
+  name: user
+
+DB_PASS:
+  pass: P4ssw0rd
+
+DB_NAME:
+  name: movie_db
