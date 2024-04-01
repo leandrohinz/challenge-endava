@@ -1,11 +1,5 @@
-ui:
-  image: leandroid/movie-analyst-ui
-
 api:
   image: leandroid/movie-analyst-api
-
-jenkins:
-  image: jenkins/jenkins
 
 monitoring:
   prometheus:
@@ -14,7 +8,7 @@ monitoring:
     enabled: true
 
 DB_HOST:
-  name: localhost
+  name: mysql-service.default.svc.cluster.local
 
 DB_USER:
   name: user

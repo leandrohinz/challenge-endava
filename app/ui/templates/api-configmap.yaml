@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: api-configmap
 data:
-  backend_url: movie-analyst-api-service:3000
+  backend_url: movie-analyst-api-service.default.svc.cluster.local:3000
