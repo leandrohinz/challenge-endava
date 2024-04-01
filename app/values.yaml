@@ -23,4 +23,4 @@ DB_PASS:
   pass: P4ssw0rd
 
 DB_NAME:
-  name: movies_db
+  name: movie_db
