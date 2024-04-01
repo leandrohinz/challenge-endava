@@ -1,0 +1,26 @@
+ui:
+  image: leandrohinz/ui-challenge
+
+api:
+  image: leandrohinz/api-challenge
+
+jenkins:
+  image: jenkins/jenkins
+
+monitoring:
+  prometheus:
+    enabled: true
+  grafana:
+    enabled: true
+
+DB_HOST:
+  name: localhost
+
+DB_USER:
+  name: user
+
+DB_PASS:
+  pass: P4ssw0rd
+
+DB_NAME:
+  name: movies_db

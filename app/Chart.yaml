@@ -1,0 +1,4 @@
+apiVersion: v2
+name: movie-analyst-app
+description: A Helm chart for deploying UI, API, Jenkins, Prometheus, and Grafana to Minikube.
+version: 0.1.0

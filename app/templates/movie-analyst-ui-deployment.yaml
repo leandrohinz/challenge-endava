@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movie-analyst-ui-deployment
+  labels:
+    app: movie-analyst-ui
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: movie-analyst-ui
+  template:
+    metadata:
+      labels:
+        app: movie-analyst-ui
+    spec:
+      containers:
+      - name: movie-analyst-ui
+        image: {{ .Values.ui.image }}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        env:
+        - name: BACKEND_URL
+          valueFrom: 
+            configMapKeyRef:
+              name: api-configmap
+              key: backend_url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: movie-analyst-ui-service
+spec:
+  selector:
+    app: movie-analyst-ui
+  type: LoadBalancer  
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30300
