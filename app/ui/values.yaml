@@ -14,4 +14,4 @@ ingress:
         - path: /
           pathType: Prefix
 
-ingressPort: 8080
+ingressPort: 3000
