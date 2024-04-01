@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+data:
+  create-database.sql: |
+    CREATE DATABASE IF NOT EXISTS movie_db;
+    USE movie_db;
+    CREATE TABLE publications (
+      name VARCHAR(250),
+      avatar VARCHAR(250),
+      PRIMARY KEY (name)
+    );
+    CREATE TABLE reviewers (
+      name VARCHAR(255),
+      publication VARCHAR(250),
+      avatar VARCHAR(250),
+      PRIMARY KEY (name),
+      FOREIGN KEY (publication) REFERENCES publications(name)
+    );
+    CREATE TABLE movies (
+      title VARCHAR(250),
+      release_date VARCHAR(250),
+      score INT(11),
+      reviewer VARCHAR(250),
+      publication VARCHAR(250),
+      PRIMARY KEY (title),
+      FOREIGN KEY (reviewer) REFERENCES reviewers(name),
+      FOREIGN KEY (publication) REFERENCES publications(name)
+    );

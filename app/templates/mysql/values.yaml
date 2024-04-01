@@ -1,0 +1,6 @@
+mysql:
+  image: mysql:latest
+  rootPassword: P4ssw0rd
+  database: movie_db
+  username: user
+  password: P4ssw0rd
