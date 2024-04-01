@@ -6,3 +6,12 @@ monitoring:
     enabled: true
   grafana:
     enabled: true
+
+ingress:
+  hosts:
+    - host: movie-analyst-ui.info
+      paths:
+        - path: /
+          pathType: Prefix
+
+ingressPort: 8080
