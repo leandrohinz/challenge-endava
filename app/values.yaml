@@ -1,8 +1,8 @@
 ui:
-  image: leandrohinz/ui-challenge
+  image: leandroid/movie-analyst-ui
 
 api:
-  image: leandrohinz/api-challenge
+  image: leandroid/movie-analyst-api
 
 jenkins:
   image: jenkins/jenkins
