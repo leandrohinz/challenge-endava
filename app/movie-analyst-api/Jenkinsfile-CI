@@ -13,7 +13,7 @@ node {
 		
     stage('Build image') {
         dir('movie-analyst-api') {
-            dockerImage = docker.build("leandrohinz/movie-analyst-api:latest")
+            dockerImage = docker.build("leandroid/movie-analyst-api:latest")
         }
        
     }
