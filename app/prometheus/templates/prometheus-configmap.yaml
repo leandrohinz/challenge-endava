@@ -61,3 +61,7 @@ data:
           - source_labels: [__meta_kubernetes_pod_name]
             action: replace
             target_label: kubernetes_pod_name
+      
+      - job_name: 'mysql'                
+        static_configs:
+          - targets: ['http://mysql-service.default.svc.cluster.local:9104']

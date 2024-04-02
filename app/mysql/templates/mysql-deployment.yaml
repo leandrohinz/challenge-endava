@@ -12,8 +12,8 @@ spec:
       labels:
         app: mysql
       annotations:                            
-        prometheus.io/scrape: "true"         
-        prometheus.io/path: "/metrics"  
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9104"  
     spec:
       containers:
         - name: mysql
@@ -29,3 +29,4 @@ spec:
               value: {{ .Values.mysql.password }}
           ports:
             - containerPort: 3306
+            - containerPort: 9104
