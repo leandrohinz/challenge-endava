@@ -23,14 +23,27 @@ spec:
                 secretKeyRef:
                   name: grafana-admin
                   key: admin-password
+            - name: GF_AUTH_ANONYMOUS_ENABLED   # Enable anonymous access
+              value: "true"
+            - name: GF_AUTH_ANONYMOUS_ORG_NAME  # Specify organization name for anonymous users
+              value: "Main Org."
+          volumeMounts:
+            - name: grafana-datasources       # Mount the ConfigMap with data sources configuration
+              mountPath: /etc/grafana/provisioning/datasources
+              readOnly: true
+      volumes:
+        - name: grafana-datasources
+          configMap:
+            name: grafana-datasources-config
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: grafana
+  name: grafana-service
 spec:
   selector:
     app: grafana
   ports:
     - port: 3001
       targetPort: 3001
+

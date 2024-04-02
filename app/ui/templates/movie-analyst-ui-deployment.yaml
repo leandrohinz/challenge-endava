@@ -13,6 +13,9 @@ spec:
     metadata:
       labels:
         app: movie-analyst-ui
+      annotations:                            
+        prometheus.io/scrape: "true"         
+        prometheus.io/path: "/metrics"  
     spec:
       containers:
       - name: movie-analyst-ui
