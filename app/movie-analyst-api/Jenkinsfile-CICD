@@ -1,0 +1,91 @@
+pipeline {
+    agent any
+    environment {
+		GIT_CREDENTIALS = credentials ('git')
+        DOCKER_CREDENTIALS = 'dockerhubaccount'
+        image = "leandroid/movie-analyst-api"
+        dockerImage = ''
+	}
+    stages {
+        stage('Clone repository') {
+            steps {
+                echo 'Cloning the git repository'
+                git credentialsId: 'git', url: 'https://github.com/leandrohinz/challenge-endava.git'
+            }
+        }
+        stage('Build image'){
+            parallel{
+                stage('Build develop image'){
+                    when { branch 'develop' }
+                    steps {
+                        script{
+                            dockerImage = docker.build image + ':' + env.BRANCH_NAME
+                        }
+                    } 
+                }
+                stage('Build main image'){
+                    when { branch 'main'}
+                    steps {
+                        script{
+                            dockerImage = docker.build image + ':' + env.BRANCH_NAME + env.GIT_COMMIT
+                        }
+                    } 
+                }
+                stage('Retag images'){
+                    when { anyOf {branch 'qa' ; branch 'staging';} }
+                    steps {
+                        sh 'docker pull ' + image + ':develop'
+                        sh 'docker image tag ' + image  + ':develop '+  image +':' + env.BRANCH_NAME
+                        script{
+                            dockerImage = docker.image( image +':' + env.BRANCH_NAME)
+                        }
+                    }  
+                }
+            }
+        }
+        stage('test'){
+            when { branch 'develop' }
+            steps {
+                script{
+                    sh 'docker run --name test_container_api --entrypoint /bin/sh ' + image + ':develop -c "npm test"'
+                    sh 'docker rm test_container_api'
+                } 
+            }
+        }
+        stage('Push the image') {
+            when{anyOf { branch 'main'; branch 'develop'; branch 'qa'; branch 'staging';} } 
+            steps { 
+                echo 'Pushing image'
+                script { 
+                    docker.withRegistry( '', DOCKER_CREDENTIALS) { 
+                        dockerImage.push() 
+                    } 
+                } 
+            }
+        }
+        stage ('Remove the images'){
+            parallel{
+                stage('Remove main image'){
+                    when{ branch 'main'}
+                    steps{
+                         sh 'docker rmi ' + image + ':' + env.BRANCH_NAME + env.GIT_COMMIT
+                    }
+                }
+                stage('Remove images'){
+                    when{ anyOf { branch 'develop'; branch 'qa'; branch 'staging';} }
+                    steps{
+                         sh 'docker rmi ' + image + ':' + env.BRANCH_NAME 
+                    }
+                }
+            }
+        }
+        stage ('Start CD') {
+            when { branch 'main' }
+            steps {
+                build job: 'CD movie-analyst-api pipeline', parameters: [
+                string(name: 'branch', value: env.GIT_COMMIT)
+                ]
+            }
+        }
+    }
+}
