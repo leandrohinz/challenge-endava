@@ -36,6 +36,7 @@ metadata:
 spec:
   selector:
     app: prometheus
+  type: NodePort
   ports:
     - name: web
       port: 9090

@@ -40,6 +40,7 @@ metadata:
 spec:
   selector:
     app: movie-analyst-api
+  type: NodePort
   ports:
     - protocol: TCP
       port: 3000

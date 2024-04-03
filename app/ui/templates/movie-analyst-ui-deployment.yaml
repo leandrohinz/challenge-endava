@@ -22,7 +22,7 @@ spec:
         image: {{ .Values.ui.image }}
         imagePullPolicy: Always
         ports:
-        - containerPort: 3000
+        - containerPort: 3030
         env:
         - name: BACKEND_URL
           valueFrom: 
@@ -37,9 +37,9 @@ metadata:
 spec:
   selector:
     app: movie-analyst-ui
-  type: LoadBalancer  
+  type: NodePort  
   ports:
     - protocol: TCP
-      port: 3000
-      targetPort: 3000
+      port: 3030
+      targetPort: 3030
       nodePort: 30300
